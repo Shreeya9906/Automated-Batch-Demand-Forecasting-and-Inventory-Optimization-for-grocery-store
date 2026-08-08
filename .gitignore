@@ -14,3 +14,8 @@ models/*.pkl
 /forecast_output.csv
 /decision_dataset.csv
 /inventory_optimization_result.csv
+
+# MLflow local tracking files
+mlflow.db
+mlruns/
+mlartifacts/

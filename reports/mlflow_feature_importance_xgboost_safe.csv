@@ -1,0 +1,57 @@
+Algorithm,Feature,Importance
+xgboost,numeric__Promotion,0.14510314
+xgboost,numeric__Demand_roll_7,0.07262881
+xgboost,categorical__Category_Groceries,0.069785
+xgboost,categorical__Seasonality_Summer,0.052211527
+xgboost,categorical__Category_Clothing,0.047943998
+xgboost,numeric__Epidemic,0.04790098
+xgboost,categorical__Weather Condition_Sunny,0.035698578
+xgboost,categorical__Weather Condition_Cloudy,0.029226784
+xgboost,categorical__Category_Furniture,0.027704926
+xgboost,categorical__Category_Toys,0.02248171
+xgboost,categorical__Region_West,0.020093696
+xgboost,categorical__Category_Electronics,0.018409627
+xgboost,categorical__Store ID_S005,0.017912611
+xgboost,categorical__Weather Condition_Rainy,0.017158087
+xgboost,categorical__Product ID_P0006,0.016533826
+xgboost,categorical__Region_South,0.015603467
+xgboost,categorical__Product ID_P0007,0.015316675
+xgboost,categorical__Region_North,0.015116547
+xgboost,categorical__Product ID_P0002,0.014981457
+xgboost,categorical__Product ID_P0013,0.014964412
+xgboost,categorical__Product ID_P0004,0.014805548
+xgboost,numeric__Price,0.014066007
+xgboost,categorical__Store ID_S004,0.013629258
+xgboost,categorical__Product ID_P0019,0.0130852545
+xgboost,categorical__Product ID_P0001,0.012962332
+xgboost,categorical__Product ID_P0018,0.012352477
+xgboost,categorical__Product ID_P0015,0.012210682
+xgboost,categorical__Product ID_P0016,0.01115977
+xgboost,categorical__Product ID_P0003,0.011133269
+xgboost,numeric__Discount,0.0110866595
+xgboost,categorical__Weather Condition_Snowy,0.010970575
+xgboost,categorical__Product ID_P0009,0.010713417
+xgboost,categorical__Store ID_S002,0.010616491
+xgboost,categorical__Product ID_P0014,0.010546394
+xgboost,categorical__Product ID_P0010,0.0103838025
+xgboost,categorical__Product ID_P0008,0.010168655
+xgboost,categorical__Product ID_P0012,0.009876648
+xgboost,categorical__Product ID_P0011,0.009604336
+xgboost,categorical__Region_East,0.00901036
+xgboost,categorical__Product ID_P0017,0.008824602
+xgboost,categorical__Store ID_S003,0.008666942
+xgboost,categorical__Store ID_S001,0.007892763
+xgboost,categorical__Product ID_P0005,0.007867884
+xgboost,numeric__Competitor Pricing,0.007865024
+xgboost,categorical__Product ID_P0020,0.0064629437
+xgboost,categorical__Seasonality_Spring,0.0041243806
+xgboost,numeric__Demand_lag_1,0.003553603
+xgboost,numeric__Month,0.0027162263
+xgboost,numeric__Demand_lag_7,0.0015394122
+xgboost,numeric__Year,0.0013710473
+xgboost,categorical__Seasonality_Winter,0.0011391332
+xgboost,numeric__DayOfWeek,0.0011203601
+xgboost,numeric__Day,0.0009401105
+xgboost,categorical__Seasonality_Autumn,0.0005665153
+xgboost,numeric__IsMonthEnd,0.00017467301
+xgboost,numeric__IsMonthStart,1.6555117e-05
