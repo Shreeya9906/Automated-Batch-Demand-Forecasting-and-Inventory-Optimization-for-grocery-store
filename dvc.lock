@@ -1,0 +1,442 @@
+schema: '2.0'
+stages:
+  validate_sales:
+    cmd: python -m src.validate_sales
+    deps:
+    - path: sales_data.csv
+      hash: md5
+      md5: 43161d2044f30cb4bc7e4e8f749f9aa9
+      size: 6346402
+    - path: src/common.py
+      hash: md5
+      md5: 8f08145843116cb51ec2c070e7d48b88
+      size: 6730
+    - path: src/feature_engineering.py
+      hash: md5
+      md5: e68866994cbbb769a2de26e7925b0013
+      size: 3939
+    - path: src/validation.py
+      hash: md5
+      md5: 2c4dd9192390e0bd361d63be934f4f34
+      size: 3526
+    outs:
+    - path: reports/sales_validation_report.json
+      hash: md5
+      md5: 6d448e6bf7c29c9120db44946e032a4f
+      size: 6373
+    - path: reports/sales_validation_report.md
+      hash: md5
+      md5: 7909d56376903ed117f912d24f3acd99
+      size: 1297
+  validate_inventory:
+    cmd: python -m src.validate_inventory
+    deps:
+    - path: src/common.py
+      hash: md5
+      md5: 8f08145843116cb51ec2c070e7d48b88
+      size: 6730
+    - path: src/validation.py
+      hash: md5
+      md5: 2c4dd9192390e0bd361d63be934f4f34
+      size: 3526
+    - path: supply_chain_dataset1.csv
+      hash: md5
+      md5: e0a1180cac7401765b119d2f8a00ea27
+      size: 6552486
+    outs:
+    - path: reports/inventory_validation_report.json
+      hash: md5
+      md5: 87cae9588286486045c9ee49703fb308
+      size: 4974
+    - path: reports/inventory_validation_report.md
+      hash: md5
+      md5: bd1314bc4b871b21d0a11c50457368a1
+      size: 1394
+  preprocess_sales:
+    cmd: python -m src.preprocess_sales
+    deps:
+    - path: sales_data.csv
+      hash: md5
+      md5: 43161d2044f30cb4bc7e4e8f749f9aa9
+      size: 6346402
+    - path: src/common.py
+      hash: md5
+      md5: 8f08145843116cb51ec2c070e7d48b88
+      size: 6730
+    - path: src/feature_engineering.py
+      hash: md5
+      md5: e68866994cbbb769a2de26e7925b0013
+      size: 3939
+    - path: src/preprocess_sales.py
+      hash: md5
+      md5: 0752ef24ec295233c3e6681291f9df1e
+      size: 1721
+    outs:
+    - path: data/processed/sales_processed.csv
+      hash: md5
+      md5: 8f5350823225e5194457e28bb24b2f89
+      size: 9659995
+  preprocess_inventory:
+    cmd: python -m src.preprocess_inventory
+    deps:
+    - path: src/common.py
+      hash: md5
+      md5: 8f08145843116cb51ec2c070e7d48b88
+      size: 6730
+    - path: src/feature_engineering.py
+      hash: md5
+      md5: e68866994cbbb769a2de26e7925b0013
+      size: 3939
+    - path: src/preprocess_inventory.py
+      hash: md5
+      md5: 1f615794e3c20f62dc82303c3b8224ed
+      size: 1626
+    - path: supply_chain_dataset1.csv
+      hash: md5
+      md5: e0a1180cac7401765b119d2f8a00ea27
+      size: 6552486
+    outs:
+    - path: data/processed/inventory_processed.csv
+      hash: md5
+      md5: a87da2bd6d6d188e1b0940ac47f4b3e2
+      size: 8008285
+  analyze_leakage:
+    cmd: python -m src.analyze_leakage
+    deps:
+    - path: sales_data.csv
+      hash: md5
+      md5: 43161d2044f30cb4bc7e4e8f749f9aa9
+      size: 6346402
+    - path: src/analyze_leakage.py
+      hash: md5
+      md5: 2ba05fb0ee11b7bc9b38add3913dac4c
+      size: 1016
+    - path: src/common.py
+      hash: md5
+      md5: 8f08145843116cb51ec2c070e7d48b88
+      size: 6730
+    - path: src/feature_engineering.py
+      hash: md5
+      md5: e68866994cbbb769a2de26e7925b0013
+      size: 3939
+    outs:
+    - path: reports/leakage_analysis_report.json
+      hash: md5
+      md5: 4535a5a41357b9dcf7c173e2c6a9916d
+      size: 1275
+  train_baseline_models:
+    cmd: python -m src.train_models --feature-mode baseline
+    deps:
+    - path: data/processed/sales_processed.csv
+      hash: md5
+      md5: 8f5350823225e5194457e28bb24b2f89
+      size: 9659995
+    - path: src/common.py
+      hash: md5
+      md5: 8f08145843116cb51ec2c070e7d48b88
+      size: 6730
+    - path: src/feature_engineering.py
+      hash: md5
+      md5: e68866994cbbb769a2de26e7925b0013
+      size: 3939
+    - path: src/modeling.py
+      hash: md5
+      md5: 6c3af2b332a3d79c1b4aaf68e39539b2
+      size: 7642
+    - path: src/train_models.py
+      hash: md5
+      md5: 0fa5c8811ce19e53e318b6b5ae693e42
+      size: 2636
+    outs:
+    - path: models/decision_tree_baseline_v1.pkl
+      hash: md5
+      md5: 08ef14f006a4e0ec0858c58d6d375b89
+      size: 7912748
+    - path: models/linear_regression_baseline_v1.pkl
+      hash: md5
+      md5: 612bdb1d835c504c2c1d6b076f801537
+      size: 7187
+    - path: models/random_forest_baseline_v1.pkl
+      hash: md5
+      md5: 87ec0ebe7af6a1ed3c69fa8add7e4917
+      size: 1006383859
+    - path: reports/baseline_model_metrics.json
+      hash: md5
+      md5: 3b2232897811c21a76238a4baebed334
+      size: 372
+    - path: reports/model_comparison_baseline.csv
+      hash: md5
+      md5: 553d214a1a608b89ef828863aeaccf84
+      size: 239
+  train_safe_models:
+    cmd: python -m src.train_models --feature-mode safe
+    deps:
+    - path: data/processed/sales_processed.csv
+      hash: md5
+      md5: 8f5350823225e5194457e28bb24b2f89
+      size: 9659995
+    - path: src/common.py
+      hash: md5
+      md5: 8f08145843116cb51ec2c070e7d48b88
+      size: 6730
+    - path: src/feature_engineering.py
+      hash: md5
+      md5: e68866994cbbb769a2de26e7925b0013
+      size: 3939
+    - path: src/modeling.py
+      hash: md5
+      md5: 6c3af2b332a3d79c1b4aaf68e39539b2
+      size: 7642
+    - path: src/train_models.py
+      hash: md5
+      md5: 0fa5c8811ce19e53e318b6b5ae693e42
+      size: 2636
+    outs:
+    - path: models/decision_tree_v1.pkl
+      hash: md5
+      md5: bce8432da31b833b5311250fd9e93364
+      size: 8005052
+    - path: models/linear_regression_v1.pkl
+      hash: md5
+      md5: 2804861ef12b1251dc898054c77cd70a
+      size: 7187
+    - path: models/random_forest_v1.pkl
+      hash: md5
+      md5: e055bd006f879f99ec21a83843cede7f
+      size: 1029128947
+    - path: reports/model_comparison_safe_baseline.csv
+      hash: md5
+      md5: 408fec1a55c15d1b4701a548d08e05bb
+      size: 241
+    - path: reports/safe_model_metrics.json
+      hash: md5
+      md5: 9a4fc9c167c3be699c5dcd25ceeb6410
+      size: 374
+  train_xgboost_safe:
+    cmd: python -m src.train_xgboost --feature-mode safe
+    deps:
+    - path: data/processed/sales_processed.csv
+      hash: md5
+      md5: 8f5350823225e5194457e28bb24b2f89
+      size: 9659995
+    - path: src/common.py
+      hash: md5
+      md5: 8f08145843116cb51ec2c070e7d48b88
+      size: 6730
+    - path: src/feature_engineering.py
+      hash: md5
+      md5: e68866994cbbb769a2de26e7925b0013
+      size: 3939
+    - path: src/modeling.py
+      hash: md5
+      md5: 6c3af2b332a3d79c1b4aaf68e39539b2
+      size: 7642
+    - path: src/train_xgboost.py
+      hash: md5
+      md5: 6bfa506f2f9857dced99ad6f89d48cad
+      size: 2357
+    outs:
+    - path: models/xgboost_v1.pkl
+      hash: md5
+      md5: 30a50b2e9cfc00035153ffd90bdc2256
+      size: 1453806
+    - path: reports/safe_xgboost_metrics.json
+      hash: md5
+      md5: be02b07a8d290171c9b07e7a37d654df
+      size: 119
+  evaluate_models:
+    cmd: python -m src.evaluate_models
+    deps:
+    - path: reports/safe_model_metrics.json
+      hash: md5
+      md5: 9a4fc9c167c3be699c5dcd25ceeb6410
+      size: 374
+    - path: reports/safe_xgboost_metrics.json
+      hash: md5
+      md5: be02b07a8d290171c9b07e7a37d654df
+      size: 119
+    - path: src/common.py
+      hash: md5
+      md5: 8f08145843116cb51ec2c070e7d48b88
+      size: 6730
+    - path: src/evaluate_models.py
+      hash: md5
+      md5: a482da63db086e23fc558fec8b4a3397
+      size: 2833
+    outs:
+    - path: feature_importance.csv
+      hash: md5
+      md5: c4fb708cb02915ff581e0d874f18fc5d
+      size: 9613
+    - path: model_comparison.csv
+      hash: md5
+      md5: d701a65a1900eca35c7f1d5d6f931d7d
+      size: 306
+    - path: reports/model_selection_summary.json
+      hash: md5
+      md5: a38ed8a7edcced7d6dc791a7ce9f0038
+      size: 662
+  generate_forecasts:
+    cmd: python -m src.generate_forecasts
+    deps:
+    - path: data/processed/sales_processed.csv
+      hash: md5
+      md5: 8f5350823225e5194457e28bb24b2f89
+      size: 9659995
+    - path: model_comparison.csv
+      hash: md5
+      md5: d701a65a1900eca35c7f1d5d6f931d7d
+      size: 306
+    - path: reports/model_selection_summary.json
+      hash: md5
+      md5: a38ed8a7edcced7d6dc791a7ce9f0038
+      size: 662
+    - path: src/common.py
+      hash: md5
+      md5: 8f08145843116cb51ec2c070e7d48b88
+      size: 6730
+    - path: src/generate_forecasts.py
+      hash: md5
+      md5: 0a61c10793492adf3d6b005eccdcbf3d
+      size: 2684
+    - path: src/modeling.py
+      hash: md5
+      md5: 6c3af2b332a3d79c1b4aaf68e39539b2
+      size: 7642
+    outs:
+    - path: forecast_output.csv
+      hash: md5
+      md5: 81bb96d6a605c2708d876d48e838bb77
+      size: 545537
+  create_mapping:
+    cmd: python -m src.create_mapping
+    deps:
+    - path: sales_data.csv
+      hash: md5
+      md5: 43161d2044f30cb4bc7e4e8f749f9aa9
+      size: 6346402
+    - path: src/common.py
+      hash: md5
+      md5: 8f08145843116cb51ec2c070e7d48b88
+      size: 6730
+    - path: src/create_mapping.py
+      hash: md5
+      md5: d1c9289f81ecd048d9e6b7e930cbc1df
+      size: 1315
+    - path: src/mapping.py
+      hash: md5
+      md5: cd093f14d2e508c7e81153c6a5dbbbe2
+      size: 3915
+    - path: supply_chain_dataset1.csv
+      hash: md5
+      md5: e0a1180cac7401765b119d2f8a00ea27
+      size: 6552486
+    outs:
+    - path: reports/location_mapping.csv
+      hash: md5
+      md5: e92b112da1b385d16c3c915a24fba422
+      size: 569
+    - path: reports/mapping_summary.json
+      hash: md5
+      md5: 116057a6599caf5019fd3424e305ae16
+      size: 136
+    - path: reports/product_mapping.csv
+      hash: md5
+      md5: e674e91861cc75d4184a4ce891b0b7c7
+      size: 2478
+  integrate_datasets:
+    cmd: python -m src.integrate_datasets
+    deps:
+    - path: data/processed/inventory_processed.csv
+      hash: md5
+      md5: a87da2bd6d6d188e1b0940ac47f4b3e2
+      size: 8008285
+    - path: forecast_output.csv
+      hash: md5
+      md5: 81bb96d6a605c2708d876d48e838bb77
+      size: 545537
+    - path: sales_data.csv
+      hash: md5
+      md5: 43161d2044f30cb4bc7e4e8f749f9aa9
+      size: 6346402
+    - path: src/common.py
+      hash: md5
+      md5: 8f08145843116cb51ec2c070e7d48b88
+      size: 6730
+    - path: src/integrate_datasets.py
+      hash: md5
+      md5: a6e704e834a10d9ff490cc153243f19d
+      size: 3761
+    - path: src/mapping.py
+      hash: md5
+      md5: cd093f14d2e508c7e81153c6a5dbbbe2
+      size: 3915
+    - path: supply_chain_dataset1.csv
+      hash: md5
+      md5: e0a1180cac7401765b119d2f8a00ea27
+      size: 6552486
+    outs:
+    - path: decision_dataset.csv
+      hash: md5
+      md5: de45dc408bb38d67f597e07238f39de6
+      size: 252766
+    - path: reports/integrated_dataset.csv
+      hash: md5
+      md5: 6770cfe4af710fe5449a086b97ade3b1
+      size: 4338554
+    - path: reports/integration_summary.json
+      hash: md5
+      md5: 2cc4c825811d2bd9a8bb79f7ed74445e
+      size: 269
+  generate_synthetic_parameters:
+    cmd: python -m src.generate_synthetic_parameters
+    deps:
+    - path: src/common.py
+      hash: md5
+      md5: 8f08145843116cb51ec2c070e7d48b88
+      size: 6730
+    - path: src/generate_synthetic_parameters.py
+      hash: md5
+      md5: 0f36523fa6d4d8d02888b8c4a0949375
+      size: 3111
+    - path: supply_chain_dataset1.csv
+      hash: md5
+      md5: e0a1180cac7401765b119d2f8a00ea27
+      size: 6552486
+    outs:
+    - path: data/synthetic/synthetic_inventory_parameters.csv
+      hash: md5
+      md5: 1ce3dc94a44a0bf5659facb4fc9a5127
+      size: 15811
+  optimize_inventory:
+    cmd: python -m src.optimize_inventory
+    deps:
+    - path: data/synthetic/synthetic_inventory_parameters.csv
+      hash: md5
+      md5: 1ce3dc94a44a0bf5659facb4fc9a5127
+      size: 15811
+    - path: decision_dataset.csv
+      hash: md5
+      md5: de45dc408bb38d67f597e07238f39de6
+      size: 252766
+    - path: src/common.py
+      hash: md5
+      md5: 8f08145843116cb51ec2c070e7d48b88
+      size: 6730
+    - path: src/optimization.py
+      hash: md5
+      md5: 468322f752cd1b29bdfd2bec3a07e82e
+      size: 2780
+    - path: src/optimize_inventory.py
+      hash: md5
+      md5: 9c0921e26cc96e98b3d8377f68c0cfd1
+      size: 1363
+    outs:
+    - path: inventory_optimization_result.csv
+      hash: md5
+      md5: cb0c8f1b43e3f8cf4322ddadd4c57ffc
+      size: 523084
+    - path: reports/inventory_optimization_summary.json
+      hash: md5
+      md5: db861c98691359cafa9ddf6520146a5a
+      size: 91

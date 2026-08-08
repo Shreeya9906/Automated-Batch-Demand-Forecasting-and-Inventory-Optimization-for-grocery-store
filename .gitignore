@@ -8,3 +8,9 @@ venv/
 
 models/*.pkl
 /sales_data.csv
+/supply_chain_dataset1.csv
+/model_comparison.csv
+/feature_importance.csv
+/forecast_output.csv
+/decision_dataset.csv
+/inventory_optimization_result.csv

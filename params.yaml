@@ -1,0 +1,23 @@
+seed: 42
+test_size: 0.2
+
+xgboost:
+  n_estimators: 300
+  max_depth: 6
+  learning_rate: 0.05
+  subsample: 0.9
+  colsample_bytree: 0.9
+  random_state: 42
+
+synthetic_parameters:
+  holding_cost_rate_min: 0.05
+  holding_cost_rate_max: 0.15
+  ordering_multiplier_min: 1.5
+  ordering_multiplier_max: 3.5
+  safety_stock_multiplier_min: 0.1
+  safety_stock_multiplier_max: 0.3
+  warehouse_capacity_min: 4000
+  warehouse_capacity_max: 10000
+
+inventory_optimization:
+  shortage_penalty: 5.0

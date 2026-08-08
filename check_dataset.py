@@ -1,262 +1,31 @@
-import pandas as pd
-import numpy as np
+from src.validation import run_inventory_validation, run_sales_validation
 
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import (
-    r2_score,
-    mean_absolute_error,
-    mean_squared_error
-)
 
-from sklearn.linear_model import LinearRegression
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.ensemble import RandomForestRegressor
-
-print("=" * 70)
-print("GROCERY DEMAND FORECASTING AND INVENTORY OPTIMIZATION")
-print("=" * 70)
-
-# =====================================================
-# LOAD DATASET
-# =====================================================
-
-df = pd.read_csv("sales_data.csv")
-
-print("\nDataset Loaded Successfully")
-
-print("\nDataset Shape:")
-print(df.shape)
-
-print("\nTotal Rows:", df.shape[0])
-print("Total Columns:", df.shape[1])
-
-# =====================================================
-# COLUMN NAMES
-# =====================================================
-
-print("\nColumns:")
-for col in df.columns:
-    print("-", col)
-
-# =====================================================
-# DATA TYPES
-# =====================================================
-
-print("\nData Types:")
-print(df.dtypes)
-
-# =====================================================
-# MISSING VALUES
-# =====================================================
-
-print("\nMissing Values:")
-print(df.isnull().sum())
-
-# =====================================================
-# ENCODE CATEGORICAL COLUMNS
-# =====================================================
-
-categorical_columns = [
-    "Store ID",
-    "Product ID",
-    "Category",
-    "Region",
-    "Weather Condition",
-    "Seasonality"
-]
-
-label_encoders = {}
-
-for col in categorical_columns:
-    encoder = LabelEncoder()
-    df[col] = encoder.fit_transform(df[col])
-    label_encoders[col] = encoder
-
-print("\nCategorical Features Encoded")
-
-# =====================================================
-# DATE CONVERSION
-# =====================================================
-
-df["Date"] = pd.to_datetime(df["Date"])
-
-df["Year"] = df["Date"].dt.year
-df["Month"] = df["Date"].dt.month
-df["Day"] = df["Date"].dt.day
-
-df.drop("Date", axis=1, inplace=True)
-
-print("\nDate Features Extracted")
-
-# =====================================================
-# FEATURES & TARGET
-# =====================================================
-
-X = df.drop("Demand", axis=1)
-y = df["Demand"]
-
-print("\nTarget Variable:")
-print("Demand")
-
-print("\nNumber of Features:", len(X.columns))
-
-# =====================================================
-# TRAIN TEST SPLIT
-# =====================================================
-
-X_train, X_test, y_train, y_test = train_test_split(
-    X,
-    y,
-    test_size=0.20,
-    random_state=42
-)
-
-print("\nTrain-Test Split Completed")
-
-print("Training Records :", len(X_train))
-print("Testing Records  :", len(X_test))
-
-# =====================================================
-# MODEL EVALUATION FUNCTION
-# =====================================================
-
-results = []
-
-def evaluate_model(model, name):
-
-    model.fit(X_train, y_train)
-
-    predictions = model.predict(X_test)
-
-    r2 = r2_score(y_test, predictions)
-
-    mae = mean_absolute_error(y_test, predictions)
-
-    rmse = np.sqrt(
-        mean_squared_error(y_test, predictions)
-    )
-
-    print("\n" + "=" * 70)
-    print(name)
+def main() -> None:
+    print("=" * 70)
+    print("GROCERY DEMAND FORECASTING AND INVENTORY OPTIMIZATION")
     print("=" * 70)
 
-    print(f"R2 Score : {r2:.4f}")
-    print(f"MAE      : {mae:.4f}")
-    print(f"RMSE     : {rmse:.4f}")
+    sales_report = run_sales_validation()
+    inventory_report = run_inventory_validation()
 
-    results.append(
-        [name, r2, mae, rmse]
-    )
+    print("\nHistorical Sales Dataset")
+    print("Shape:", tuple(sales_report["shape"]))
+    print("Columns:", sales_report["columns"])
+    print("Date range:", sales_report["date_range"]["min"], "->", sales_report["date_range"]["max"])
+    print("Missing values:", sales_report["missing_values"])
+    print("Duplicate rows:", sales_report["duplicate_rows"])
 
-    return model, r2
+    print("\nInventory Dataset")
+    print("Shape:", tuple(inventory_report["shape"]))
+    print("Columns:", inventory_report["columns"])
+    print("Date range:", inventory_report["date_range"]["min"], "->", inventory_report["date_range"]["max"])
+    print("Missing values:", inventory_report["missing_values"])
+    print("Duplicate rows:", inventory_report["duplicate_rows"])
 
-# =====================================================
-# LINEAR REGRESSION
-# =====================================================
 
-lr_model, lr_score = evaluate_model(
-    LinearRegression(),
-    "Linear Regression"
-)
-
-# =====================================================
-# DECISION TREE
-# =====================================================
-
-dt_model, dt_score = evaluate_model(
-    DecisionTreeRegressor(random_state=42),
-    "Decision Tree Regressor"
-)
-
-# =====================================================
-# RANDOM FOREST
-# =====================================================
-
-rf_model, rf_score = evaluate_model(
-    RandomForestRegressor(
-        n_estimators=100,
-        random_state=42,
-        n_jobs=-1
-    ),
-    "Random Forest Regressor"
-)
-
-# =====================================================
-# BEST MODEL SELECTION
-# =====================================================
-
-scores = {
-    "Linear Regression": lr_score,
-    "Decision Tree Regressor": dt_score,
-    "Random Forest Regressor": rf_score
-}
-
-best_model_name = max(
-    scores,
-    key=scores.get
-)
-
-if best_model_name == "Linear Regression":
-    best_model = lr_model
-
-elif best_model_name == "Decision Tree Regressor":
-    best_model = dt_model
-
-else:
-    best_model = rf_model
-
-print("\n" + "=" * 70)
-print("BEST MODEL")
-print("=" * 70)
-
-print("Best Algorithm :", best_model_name)
-print("Best R2 Score  :", round(scores[best_model_name], 4))
-
-# =====================================================
-# SAMPLE DEMAND PREDICTION
-# =====================================================
-
-print("\n" + "=" * 70)
-print("SAMPLE DEMAND PREDICTION")
-print("=" * 70)
-
-sample = X_test.iloc[[0]]
-
-predicted_demand = best_model.predict(sample)[0]
-
-actual_demand = y_test.iloc[0]
-
-print("Actual Demand    :", actual_demand)
-print("Predicted Demand :", round(predicted_demand, 2))
-
-# =====================================================
-# INVENTORY OPTIMIZATION
-# =====================================================
-
-inventory = sample["Inventory Level"].values[0]
-
-print("\nInventory Level :", inventory)
-
-if predicted_demand > inventory:
-
-    shortage = predicted_demand - inventory
-
-    print("Inventory Status : LOW STOCK")
-    print(
-        "Recommended Order Quantity :",
-        round(shortage)
-    )
-
-else:
-
-    excess = inventory - predicted_demand
-
-    print("Inventory Status : SUFFICIENT STOCK")
-    print(
-        "Excess Inventory :",
-        round(excess)
-    )
+if __name__ == "__main__":
+    main()
 
 # =====================================================
 # FEATURE IMPORTANCE
