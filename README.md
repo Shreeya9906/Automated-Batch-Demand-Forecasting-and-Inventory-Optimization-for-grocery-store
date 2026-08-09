@@ -29,3 +29,31 @@ The raw datasets are not combined directly. They are connected through determini
 - `Units Sold`, `Inventory Level`, and `Units Ordered` are treated as leakage risks for the forecasting model.
 - `Demand_Forecast` in the inventory dataset is treated as a reference benchmark, not as the project prediction input.
 - The mapping tables are deterministic prototype crosswalks, not claims of real-world equivalence.
+
+## Phase 2: FastAPI Deployment
+
+This project includes a FastAPI layer that exposes the leakage-safe forecasting model and the existing inventory optimization logic as a service. 
+
+- **Model Used**: `models/xgboost_v1.pkl` (The leakage-safe XGBoost model)
+- **MLflow Registered Model**: `GroceryDemandForecasting v1`
+
+### Endpoints
+
+- `GET /`: Returns API and project metadata.
+- `GET /health`: Returns the health status, indicating if the model and parameters are loaded.
+- `POST /predict`: Predicts demand using the loaded XGBoost model.
+- `POST /optimize`: Generates demand prediction and passes it to the inventory optimization function to return recommended order quantities and status.
+
+### How to Start
+
+Run the API locally using uvicorn:
+```bash
+uvicorn src.api:app --reload
+```
+
+Once running, access the interactive Swagger documentation at:
+http://127.0.0.1:8000/docs
+
+### Note on Historical Lag Features
+
+The current API prototype accepts historical lag features (`Demand_lag_1`, `Demand_lag_7`, `Demand_roll_7`) explicitly in the request schema. In a production implementation, these values should be obtained automatically from the historical data layer or feature store, rather than being manually provided by the API client.
