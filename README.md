@@ -57,3 +57,28 @@ http://127.0.0.1:8000/docs
 ### Note on Historical Lag Features
 
 The current API prototype accepts historical lag features (`Demand_lag_1`, `Demand_lag_7`, `Demand_roll_7`) explicitly in the request schema. In a production implementation, these values should be obtained automatically from the historical data layer or feature store, rather than being manually provided by the API client.
+
+## Phase 3: Docker Deployment
+
+The FastAPI application can be packaged into a reproducible Docker container, eliminating local environment discrepancies.
+
+### Prerequisites
+- Docker Desktop (or standard Docker daemon) installed and running.
+
+### Build the Image
+To build the Docker image locally, run the following command from the project root:
+```bash
+docker build -t grocery-demand-api:v1.2.0 .
+```
+
+### Run the Container
+Start the container and map port 8000:
+```bash
+docker run --rm -p 8000:8000 grocery-demand-api:v1.2.0
+```
+
+Once the container is running, the API will be available at:
+- API Root: `http://localhost:8000`
+- Swagger UI: `http://localhost:8000/docs`
+
+The container exposes all the same endpoints (`/health`, `/predict`, `/optimize`) as the local deployment, powered by the exact same validated model (`models/xgboost_v1.pkl`).

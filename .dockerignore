@@ -1,0 +1,60 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+env.bak/
+venv.bak/
+
+# Testing
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# MLflow
+mlruns/
+mlartifacts/
+mlflow.db
+
+# DVC
+.dvc/
+.dvcignore
+dvc.lock
+dvc.yaml
+params.yaml
+
+# Data
+# We only want to include specific data needed for the API.
+# So we ignore all of data/ then selectively re-include what we need if dockerignore allows,
+# or we just ignore the large/unneeded datasets.
+data/historical/
+data/inventory/
+data/processed/
+sales_data.csv
+supply_chain_dataset1.csv
+decision_dataset.csv
+inventory_optimization_result.csv
+
+# Models
+# Ignore other models, only xgboost_v1.pkl is copied
+models/linear_regression*
+models/decision_tree*
+models/random_forest*
+models/*_baseline_*
+
+# Reports
+reports/
+
+# OS/IDE
+.vscode/
+.idea/
+.DS_Store
