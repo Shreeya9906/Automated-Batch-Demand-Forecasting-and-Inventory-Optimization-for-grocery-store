@@ -1,0 +1,9 @@
+timestamp,Store ID,Product ID,Category,Region,Price,Discount,Weather Condition,Promotion,Competitor Pricing,Seasonality,Epidemic,Date,Demand_lag_1,Demand_lag_7,Demand_roll_7,predicted_demand,prediction_status,model_name,model_version
+2022-01-08T00:00:00Z,S001,P0001,Electronics,North,68.56,10,Snowy,1,80.99,Winter,0,2022-01-08,87.0,115.0,105.85714285714286,5.4746704,success,XGBoost,1
+2022-01-09T00:00:00Z,S001,P0001,Electronics,North,62.76,10,Sunny,0,67.11,Winter,0,2022-01-09,113.0,84.0,105.57142857142856,-4.0960336,success,XGBoost,1
+2022-01-10T00:00:00Z,S001,P0001,Electronics,North,68.99,5,Cloudy,0,81.14,Winter,0,2022-01-10,87.0,132.0,106.0,-6.87087,success,XGBoost,1
+2022-01-11T00:00:00Z,S001,P0001,Electronics,North,73.71,0,Cloudy,0,85.29,Winter,0,2022-01-11,99.0,67.0,101.28571428571428,-10.0387335,success,XGBoost,1
+2022-01-12T00:00:00Z,S001,P0001,Electronics,North,65.76,10,Snowy,0,60.13,Winter,0,2022-01-12,103.0,110.0,106.42857142857144,-16.209072,success,XGBoost,1
+2022-01-13T00:00:00Z,S001,P0001,Electronics,North,54.01,20,Cloudy,1,61.35,Winter,0,2022-01-13,85.0,146.0,102.85714285714286,6.1630316,success,XGBoost,1
+2022-01-14T00:00:00Z,S001,P0001,Electronics,North,58.29,5,Sunny,0,61.97,Winter,0,2022-01-14,77.0,87.0,93.0,-14.312661,success,XGBoost,1
+2022-01-15T00:00:00Z,S001,P0001,Electronics,North,81.93,10,Sunny,1,95.61,Winter,0,2022-01-15,52.0,113.0,88.0,34.45199,success,XGBoost,1

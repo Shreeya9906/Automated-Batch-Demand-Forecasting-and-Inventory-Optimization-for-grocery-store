@@ -10,6 +10,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
 from src.common import MODELS_DIR, SYNTHETIC_DIR
+from src.monitoring import record_prediction
 from src.optimization import optimize_inventory_decisions
 
 logger = logging.getLogger(__name__)
@@ -170,6 +171,16 @@ def predict(request: PredictRequest):
         prediction = app_state["model"].predict(features)[0]
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Prediction failed: {e}")
+
+    try:
+        record_prediction(
+            request.model_dump(by_alias=True),
+            predicted_demand=float(prediction),
+            model_name=app_state["model_name"],
+            model_version=app_state["model_version"],
+        )
+    except Exception:
+        logger.exception("Prediction monitoring record could not be written")
 
     return PredictResponse(
         predicted_demand=float(prediction),

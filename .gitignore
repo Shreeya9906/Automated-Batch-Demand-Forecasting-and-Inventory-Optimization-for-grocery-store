@@ -19,3 +19,7 @@ models/*.pkl
 mlflow.db
 mlruns/
 mlartifacts/
+
+# Evidently monitoring outputs and runtime prediction log
+/reports/monitoring/
+/data/monitoring/prediction_log.csv

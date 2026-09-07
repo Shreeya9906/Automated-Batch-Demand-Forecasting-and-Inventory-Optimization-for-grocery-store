@@ -1,0 +1,9 @@
+timestamp,Store ID,Product ID,Category,Region,Price,Discount,Weather Condition,Promotion,Competitor Pricing,Seasonality,Epidemic,Date,Demand_lag_1,Demand_lag_7,Demand_roll_7,predicted_demand,prediction_status,model_name,model_version
+2024-01-23T00:00:00Z,S005,P0020,Toys,North,29.56,5,Snowy,0,32.88,Winter,0,2024-01-23,112.0,89.0,104.42857142857144,-15.175957,success,XGBoost,1
+2024-01-24T00:00:00Z,S005,P0020,Toys,North,26.86,20,Cloudy,1,30.17,Winter,0,2024-01-24,97.0,108.0,105.57142857142856,18.21642,success,XGBoost,1
+2024-01-25T00:00:00Z,S005,P0020,Toys,North,24.89,10,Sunny,0,29.3,Winter,0,2024-01-25,121.0,169.0,107.42857142857144,-8.294572,success,XGBoost,1
+2024-01-26T00:00:00Z,S005,P0020,Toys,North,34.99,0,Cloudy,0,37.5,Winter,0,2024-01-26,63.0,68.0,92.28571428571428,-3.1882994,success,XGBoost,1
+2024-01-27T00:00:00Z,S005,P0020,Toys,North,22.55,10,Snowy,0,26.95,Winter,0,2024-01-27,134.0,117.0,101.71428571428572,-25.19592,success,XGBoost,1
+2024-01-28T00:00:00Z,S005,P0020,Toys,North,30.87,15,Cloudy,1,28.08,Winter,0,2024-01-28,38.0,68.0,90.42857142857144,13.536165,success,XGBoost,1
+2024-01-29T00:00:00Z,S005,P0020,Toys,North,31.95,5,Cloudy,0,31.33,Winter,0,2024-01-29,130.0,112.0,99.28571428571428,-8.015488,success,XGBoost,1
+2024-01-30T00:00:00Z,S005,P0020,Toys,North,25.78,10,Snowy,0,29.32,Winter,0,2024-01-30,105.0,97.0,98.28571428571428,-23.161465,success,XGBoost,1

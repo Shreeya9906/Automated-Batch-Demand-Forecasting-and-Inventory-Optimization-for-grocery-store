@@ -6,7 +6,8 @@ WORKDIR /app
 COPY requirements.txt .
 
 # Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --default-timeout=300 --no-deps xgboost==3.0.4 \
+	&& pip install --no-cache-dir --default-timeout=300 -r requirements.txt
 
 # Copy the application source code
 COPY src/ src/
