@@ -12,7 +12,7 @@ import joblib
 import pandas as pd
 
 from src.common import PROCESSED_DIR, REPORTS_DIR, SALES_DATE_COL, SALES_TARGET, ensure_directories, save_dataframe
-from src.modeling import load_sales_frame, train_test_from_frame
+from pipeline.modeling import load_sales_frame, train_test_from_frame
 
 
 def main() -> None:
@@ -20,7 +20,7 @@ def main() -> None:
     parser.add_argument("--input", default=str(PROCESSED_DIR / "sales_processed.csv"), help="Processed sales CSV")
     parser.add_argument("--feature-mode", choices=["baseline", "safe"], default="safe", help="Feature set to use")
     parser.add_argument("--model-path", default=None, help="Optional explicit model path")
-    parser.add_argument("--output", default=str(Path("forecast_output.csv")), help="Output CSV path")
+    parser.add_argument("--output", default=str(Path("data/processed/forecast_output.csv")), help="Output CSV path")
     args = parser.parse_args()
 
     ensure_directories()

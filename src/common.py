@@ -18,8 +18,8 @@ MODELS_DIR = ROOT_DIR / "models"
 REPORTS_DIR = ROOT_DIR / "reports"
 CONFIG_DIR = ROOT_DIR / "config"
 
-RAW_SALES_PATH = ROOT_DIR / "sales_data.csv"
-RAW_INVENTORY_PATH = ROOT_DIR / "supply_chain_dataset1.csv"
+RAW_SALES_PATH = HISTORICAL_DIR / "sales_data.csv"
+RAW_INVENTORY_PATH = INVENTORY_DIR / "supply_chain_dataset1.csv"
 
 RANDOM_SEED = 42
 TEST_SIZE = 0.2

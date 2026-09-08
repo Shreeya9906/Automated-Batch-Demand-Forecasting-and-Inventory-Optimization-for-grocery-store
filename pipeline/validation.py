@@ -19,7 +19,7 @@ from src.common import (
     save_json,
     summarize_dataframe,
 )
-from src.feature_engineering import leakage_analysis_notes
+from pipeline.feature_engineering import leakage_analysis_notes
 
 
 def validate_sales_dataframe(df: pd.DataFrame) -> Dict:

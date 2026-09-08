@@ -6,7 +6,6 @@ scipy==1.15.2
 joblib==1.4.2
 PyYAML==6.0.2
 dvc==3.61.0
-mlflow==3.15.1
 fastapi
 uvicorn
 evidently==0.7.21

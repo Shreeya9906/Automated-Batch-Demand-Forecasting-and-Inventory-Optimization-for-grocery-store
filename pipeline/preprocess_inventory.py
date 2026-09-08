@@ -10,7 +10,7 @@ if __package__ is None or __package__ == "":
     sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 from src.common import PROCESSED_DIR, RAW_INVENTORY_PATH, ensure_directories, save_dataframe
-from src.feature_engineering import engineer_inventory_features
+from pipeline.feature_engineering import engineer_inventory_features
 
 
 def preprocess_inventory(input_path: str, output_path: str) -> pd.DataFrame:

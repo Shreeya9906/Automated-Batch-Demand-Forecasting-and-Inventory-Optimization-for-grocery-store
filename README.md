@@ -7,9 +7,11 @@ Production-oriented FastAPI backend for grocery demand forecasting and inventory
 - Leakage-safe XGBoost demand model in `models/xgboost_v1.pkl`.
 - FastAPI endpoints for prediction and inventory decisions.
 - Deterministic inventory optimization using synthetic warehouse and SKU parameters.
-- MLflow experiment history and DVC pipeline retained for reproducibility.
+- DVC pipeline retained for reproducibility.
 - Docker image and GitHub Actions CI for repeatable validation.
 - Evidently monitoring for input drift, prediction drift, data quality, and prediction availability.
+
+Production code lives in `src/`. Training, preprocessing, validation, and DVC stages live in `pipeline/`. Project data is organized under `data/historical/`, `data/inventory/`, `data/processed/`, `data/monitoring/`, and `data/synthetic/`.
 
 ## Run locally
 
@@ -34,11 +36,11 @@ The container exposes `GET /`, `GET /health`, `POST /predict`, `POST /optimize`,
 ## Monitoring
 
 ```bash
-python -m src.run_monitoring
+python -m pipeline.run_monitoring
 ```
 
 Reports are written to `reports/monitoring/`, which is ignored by Git. Runtime prediction records are written to `data/monitoring/prediction_log.csv`. Monitoring does not claim model accuracy because runtime records do not contain ground-truth demand labels.
 
 ## Reproducibility
 
-DVC tracks the historical datasets and batch pipeline. MLflow tracks experiments and model registry metadata. The historical training and validation modules remain available for DVC reproducibility, while the deployed API uses only the frozen model and inventory parameters.
+DVC tracks the historical datasets and batch pipeline. The historical training and validation modules remain available for DVC reproducibility, while the deployed API uses only the frozen model and inventory parameters.

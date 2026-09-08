@@ -10,7 +10,7 @@ if __package__ is None or __package__ == "":
 import pandas as pd
 
 from src.common import RAW_SALES_PATH, REPORTS_DIR, ensure_directories, save_json
-from src.feature_engineering import leakage_analysis_notes
+from pipeline.feature_engineering import leakage_analysis_notes
 
 
 def main() -> None:

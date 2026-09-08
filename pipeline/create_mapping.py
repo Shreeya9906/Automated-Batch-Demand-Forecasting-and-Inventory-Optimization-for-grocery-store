@@ -10,7 +10,7 @@ if __package__ is None or __package__ == "":
 import pandas as pd
 
 from src.common import RAW_INVENTORY_PATH, RAW_SALES_PATH, ensure_directories
-from src.mapping import build_location_mapping, build_product_mapping, save_mapping_tables
+from pipeline.mapping import build_location_mapping, build_product_mapping, save_mapping_tables
 
 
 def main() -> None:

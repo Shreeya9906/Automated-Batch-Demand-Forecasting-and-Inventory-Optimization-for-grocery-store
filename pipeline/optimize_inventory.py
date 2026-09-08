@@ -10,14 +10,14 @@ if __package__ is None or __package__ == "":
 import pandas as pd
 
 from src.common import REPORTS_DIR, SYNTHETIC_DIR, ensure_directories
-from src.optimization import optimize_inventory_decisions, save_optimization_result
+from pipeline.optimization import optimize_inventory_decisions, save_optimization_result
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Optimize inventory decisions using predicted demand.")
-    parser.add_argument("--decision-input", default=str(Path("decision_dataset.csv")), help="Decision dataset CSV")
+    parser.add_argument("--decision-input", default=str(Path("data/processed/decision_dataset.csv")), help="Decision dataset CSV")
     parser.add_argument("--parameters-input", default=str(SYNTHETIC_DIR / "synthetic_inventory_parameters.csv"), help="Synthetic parameter CSV")
-    parser.add_argument("--output", default=str(Path("inventory_optimization_result.csv")), help="Optimization output CSV")
+    parser.add_argument("--output", default=str(Path("data/processed/inventory_optimization_result.csv")), help="Optimization output CSV")
     args = parser.parse_args()
 
     ensure_directories()

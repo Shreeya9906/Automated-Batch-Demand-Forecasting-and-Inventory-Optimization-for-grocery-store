@@ -24,8 +24,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Build the model comparison table.")
     parser.add_argument("--baseline-metrics", default=str(REPORTS_DIR / "safe_model_metrics.json"), help="Metrics JSON from baseline models")
     parser.add_argument("--xgboost-metrics", default=str(REPORTS_DIR / "safe_xgboost_metrics.json"), help="Metrics JSON from XGBoost")
-    parser.add_argument("--output", default=str(Path("model_comparison.csv")), help="Output CSV path")
-    parser.add_argument("--feature-importance-output", default=str(Path("feature_importance.csv")), help="Output feature-importance CSV path")
+    parser.add_argument("--output", default=str(Path("data/processed/model_comparison.csv")), help="Output CSV path")
+    parser.add_argument("--feature-importance-output", default=str(Path("data/processed/feature_importance.csv")), help="Output feature-importance CSV path")
     args = parser.parse_args()
 
     ensure_directories()

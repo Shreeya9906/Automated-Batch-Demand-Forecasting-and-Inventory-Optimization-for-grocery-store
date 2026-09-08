@@ -8,7 +8,7 @@ if __package__ is None or __package__ == "":
     sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 from src.common import RAW_INVENTORY_PATH, ensure_directories, save_json
-from src.validation import run_inventory_validation
+from pipeline.validation import run_inventory_validation
 
 
 def main() -> None:

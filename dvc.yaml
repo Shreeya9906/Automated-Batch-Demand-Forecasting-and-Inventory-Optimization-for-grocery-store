@@ -1,62 +1,62 @@
 stages:
   validate_sales:
-    cmd: python -m src.validate_sales
+    cmd: python -m pipeline.validate_sales
     deps:
-      - sales_data.csv
-      - src/validation.py
-      - src/feature_engineering.py
+      - data/historical/sales_data.csv
+      - pipeline/validation.py
+      - pipeline/feature_engineering.py
       - src/common.py
     outs:
       - reports/sales_validation_report.json
       - reports/sales_validation_report.md
 
   validate_inventory:
-    cmd: python -m src.validate_inventory
+    cmd: python -m pipeline.validate_inventory
     deps:
-      - supply_chain_dataset1.csv
-      - src/validation.py
+      - data/inventory/supply_chain_dataset1.csv
+      - pipeline/validation.py
       - src/common.py
     outs:
       - reports/inventory_validation_report.json
       - reports/inventory_validation_report.md
 
   preprocess_sales:
-    cmd: python -m src.preprocess_sales
+    cmd: python -m pipeline.preprocess_sales
     deps:
-      - sales_data.csv
-      - src/preprocess_sales.py
-      - src/feature_engineering.py
+      - data/historical/sales_data.csv
+      - pipeline/preprocess_sales.py
+      - pipeline/feature_engineering.py
       - src/common.py
     outs:
       - data/processed/sales_processed.csv
 
   preprocess_inventory:
-    cmd: python -m src.preprocess_inventory
+    cmd: python -m pipeline.preprocess_inventory
     deps:
-      - supply_chain_dataset1.csv
-      - src/preprocess_inventory.py
-      - src/feature_engineering.py
+      - data/inventory/supply_chain_dataset1.csv
+      - pipeline/preprocess_inventory.py
+      - pipeline/feature_engineering.py
       - src/common.py
     outs:
       - data/processed/inventory_processed.csv
 
   analyze_leakage:
-    cmd: python -m src.analyze_leakage
+    cmd: python -m pipeline.analyze_leakage
     deps:
-      - sales_data.csv
-      - src/analyze_leakage.py
-      - src/feature_engineering.py
+      - data/historical/sales_data.csv
+      - pipeline/analyze_leakage.py
+      - pipeline/feature_engineering.py
       - src/common.py
     outs:
       - reports/leakage_analysis_report.json
 
   train_baseline_models:
-    cmd: python -m src.train_models --feature-mode baseline
+    cmd: python -m pipeline.train_models --feature-mode baseline
     deps:
       - data/processed/sales_processed.csv
-      - src/train_models.py
-      - src/modeling.py
-      - src/feature_engineering.py
+      - pipeline/train_models.py
+      - pipeline/modeling.py
+      - pipeline/feature_engineering.py
       - src/common.py
     outs:
       - models/linear_regression_baseline_v1.pkl
@@ -66,12 +66,12 @@ stages:
       - reports/baseline_model_metrics.json
 
   train_safe_models:
-    cmd: python -m src.train_models --feature-mode safe
+    cmd: python -m pipeline.train_models --feature-mode safe
     deps:
       - data/processed/sales_processed.csv
-      - src/train_models.py
-      - src/modeling.py
-      - src/feature_engineering.py
+      - pipeline/train_models.py
+      - pipeline/modeling.py
+      - pipeline/feature_engineering.py
       - src/common.py
     outs:
       - models/linear_regression_v1.pkl
@@ -81,48 +81,48 @@ stages:
       - reports/safe_model_metrics.json
 
   train_xgboost_safe:
-    cmd: python -m src.train_xgboost --feature-mode safe
+    cmd: python -m pipeline.train_xgboost --feature-mode safe
     deps:
       - data/processed/sales_processed.csv
-      - src/train_xgboost.py
-      - src/modeling.py
-      - src/feature_engineering.py
+      - pipeline/train_xgboost.py
+      - pipeline/modeling.py
+      - pipeline/feature_engineering.py
       - src/common.py
     outs:
       - models/xgboost_v1.pkl
       - reports/safe_xgboost_metrics.json
 
   evaluate_models:
-    cmd: python -m src.evaluate_models
+    cmd: python -m pipeline.evaluate_models
     deps:
       - reports/safe_model_metrics.json
       - reports/safe_xgboost_metrics.json
-      - src/evaluate_models.py
+      - pipeline/evaluate_models.py
       - src/common.py
     outs:
-      - model_comparison.csv
-      - feature_importance.csv
+      - data/processed/model_comparison.csv
+      - data/processed/feature_importance.csv
       - reports/model_selection_summary.json
 
   generate_forecasts:
-    cmd: python -m src.generate_forecasts
+    cmd: python -m pipeline.generate_forecasts
     deps:
       - data/processed/sales_processed.csv
-      - model_comparison.csv
+      - data/processed/model_comparison.csv
       - reports/model_selection_summary.json
-      - src/generate_forecasts.py
-      - src/modeling.py
+      - pipeline/generate_forecasts.py
+      - pipeline/modeling.py
       - src/common.py
     outs:
-      - forecast_output.csv
+      - data/processed/forecast_output.csv
 
   create_mapping:
-    cmd: python -m src.create_mapping
+    cmd: python -m pipeline.create_mapping
     deps:
-      - sales_data.csv
-      - supply_chain_dataset1.csv
-      - src/create_mapping.py
-      - src/mapping.py
+      - data/historical/sales_data.csv
+      - data/inventory/supply_chain_dataset1.csv
+      - pipeline/create_mapping.py
+      - pipeline/mapping.py
       - src/common.py
     outs:
       - reports/location_mapping.csv
@@ -130,37 +130,37 @@ stages:
       - reports/mapping_summary.json
 
   integrate_datasets:
-    cmd: python -m src.integrate_datasets
+    cmd: python -m pipeline.integrate_datasets
     deps:
-      - forecast_output.csv
+      - data/processed/forecast_output.csv
       - data/processed/inventory_processed.csv
-      - sales_data.csv
-      - supply_chain_dataset1.csv
-      - src/integrate_datasets.py
-      - src/mapping.py
+      - data/historical/sales_data.csv
+      - data/inventory/supply_chain_dataset1.csv
+      - pipeline/integrate_datasets.py
+      - pipeline/mapping.py
       - src/common.py
     outs:
       - reports/integrated_dataset.csv
-      - decision_dataset.csv
+      - data/processed/decision_dataset.csv
       - reports/integration_summary.json
 
   generate_synthetic_parameters:
-    cmd: python -m src.generate_synthetic_parameters
+    cmd: python -m pipeline.generate_synthetic_parameters
     deps:
-      - supply_chain_dataset1.csv
-      - src/generate_synthetic_parameters.py
+      - data/inventory/supply_chain_dataset1.csv
+      - pipeline/generate_synthetic_parameters.py
       - src/common.py
     outs:
       - data/synthetic/synthetic_inventory_parameters.csv
 
   optimize_inventory:
-    cmd: python -m src.optimize_inventory
+    cmd: python -m pipeline.optimize_inventory
     deps:
-      - decision_dataset.csv
+      - data/processed/decision_dataset.csv
       - data/synthetic/synthetic_inventory_parameters.csv
-      - src/optimize_inventory.py
+      - pipeline/optimize_inventory.py
       - src/optimization.py
       - src/common.py
     outs:
-      - inventory_optimization_result.csv
+      - data/processed/inventory_optimization_result.csv
       - reports/inventory_optimization_summary.json

@@ -6,9 +6,6 @@ venv/
 
 .ipynb_checkpoints/
 
-/sales_data.csv
-/supply_chain_dataset1.csv
-
 # Keep only the deployed model in the repository; other training outputs remain local DVC artifacts.
 models/*
 !models/xgboost_v1.pkl

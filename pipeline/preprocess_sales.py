@@ -10,7 +10,7 @@ if __package__ is None or __package__ == "":
     sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 from src.common import PROCESSED_DIR, RAW_SALES_PATH, SALES_DATE_COL, ensure_directories, save_dataframe
-from src.feature_engineering import engineer_sales_features
+from pipeline.feature_engineering import engineer_sales_features
 
 
 def preprocess_sales(input_path: str, output_path: str) -> pd.DataFrame:

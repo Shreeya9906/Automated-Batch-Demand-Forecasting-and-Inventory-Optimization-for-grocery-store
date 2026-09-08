@@ -18,7 +18,7 @@ from sklearn.ensemble import RandomForestRegressor
 from xgboost import XGBRegressor
 
 from src.common import MODELS_DIR, PROCESSED_DIR, RANDOM_SEED, SALES_DATE_COL, SALES_LEAKAGE_COLUMNS, SALES_TARGET, TEST_SIZE, chronological_split, ensure_directories, save_dataframe, save_json
-from src.feature_engineering import engineer_sales_features, SALES_CATEGORICAL_COLUMNS
+from pipeline.feature_engineering import engineer_sales_features, SALES_CATEGORICAL_COLUMNS
 
 
 LAG_COLUMNS = ["Demand_lag_1", "Demand_lag_7", "Demand_roll_7"]

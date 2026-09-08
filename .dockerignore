@@ -39,10 +39,9 @@ params.yaml
 data/historical/
 data/inventory/
 data/processed/
-sales_data.csv
-supply_chain_dataset1.csv
-decision_dataset.csv
-inventory_optimization_result.csv
+data/historical/
+data/inventory/
+data/processed/
 
 # Models
 # Ignore other models, only xgboost_v1.pkl is copied

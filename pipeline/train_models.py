@@ -10,7 +10,7 @@ if __package__ is None or __package__ == "":
 import pandas as pd
 
 from src.common import PROCESSED_DIR, RAW_SALES_PATH, REPORTS_DIR, ensure_directories, save_dataframe, save_json
-from src.modeling import save_model_metrics, train_models_for_mode
+from pipeline.modeling import save_model_metrics, train_models_for_mode
 
 
 def main() -> None:

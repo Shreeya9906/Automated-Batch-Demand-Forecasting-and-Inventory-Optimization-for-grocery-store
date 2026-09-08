@@ -10,7 +10,7 @@ if __package__ is None or __package__ == "":
 import pandas as pd
 
 from src.common import PROCESSED_DIR, RAW_INVENTORY_PATH, RAW_SALES_PATH, REPORTS_DIR, ensure_directories, save_dataframe, save_json
-from src.mapping import apply_mappings, build_decision_dataset, build_location_mapping, build_product_mapping, save_mapping_tables
+from pipeline.mapping import apply_mappings, build_decision_dataset, build_location_mapping, build_product_mapping, save_mapping_tables
 
 
 def integrate_forecast_and_inventory(forecast_df: pd.DataFrame, inventory_df: pd.DataFrame, location_mapping: pd.DataFrame, product_mapping: pd.DataFrame) -> pd.DataFrame:
@@ -34,11 +34,11 @@ def integrate_forecast_and_inventory(forecast_df: pd.DataFrame, inventory_df: pd
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Integrate forecast output with the processed inventory dataset.")
-    parser.add_argument("--forecast-input", default=str(Path("forecast_output.csv")), help="Forecast output CSV")
+    parser.add_argument("--forecast-input", default=str(Path("data/processed/forecast_output.csv")), help="Forecast output CSV")
     parser.add_argument("--inventory-input", default=str(PROCESSED_DIR / "inventory_processed.csv"), help="Processed inventory CSV")
     parser.add_argument("--sales-input", default=str(RAW_SALES_PATH), help="Raw sales CSV for mapping")
     parser.add_argument("--raw-inventory-input", default=str(RAW_INVENTORY_PATH), help="Raw inventory CSV for mapping")
-    parser.add_argument("--output", default=str(Path("decision_dataset.csv")), help="Decision dataset output CSV")
+    parser.add_argument("--output", default=str(Path("data/processed/decision_dataset.csv")), help="Decision dataset output CSV")
     parser.add_argument("--integrated-output", default=str(REPORTS_DIR / "integrated_dataset.csv"), help="Optional integrated intermediate CSV")
     args = parser.parse_args()
 

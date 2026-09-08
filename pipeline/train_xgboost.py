@@ -8,7 +8,7 @@ if __package__ is None or __package__ == "":
     sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 from src.common import PROCESSED_DIR, REPORTS_DIR, ensure_directories, save_dataframe
-from src.modeling import compute_feature_importance, evaluation_metrics, fit_pipeline, load_sales_frame, save_model_metrics, train_test_from_frame, model_filename
+from pipeline.modeling import compute_feature_importance, evaluation_metrics, fit_pipeline, load_sales_frame, save_model_metrics, train_test_from_frame, model_filename
 import joblib
 
 
