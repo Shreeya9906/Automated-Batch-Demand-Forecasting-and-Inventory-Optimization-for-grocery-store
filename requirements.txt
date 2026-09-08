@@ -9,3 +9,4 @@ dvc==3.61.0
 fastapi
 uvicorn
 evidently==0.7.21
+pytest
