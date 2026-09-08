@@ -1,5 +1,0 @@
-{
-  "best_model": "xgboost",
-  "run_id": "b7e2b5bea2a7425195fca6f0c397adaa",
-  "comparison_csv": "C:\\Users\\SHREEYASWINI P\\OneDrive\\Desktop\\grocery-demand-forecasting\\reports\\mlflow_model_comparison_safe.csv"
-}
