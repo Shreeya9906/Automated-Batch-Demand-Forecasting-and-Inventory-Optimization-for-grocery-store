@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 import logging
+import os
 from contextlib import asynccontextmanager
 from typing import Any, Dict
 
 import joblib
 import pandas as pd
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from src.common import MODELS_DIR, SYNTHETIC_DIR
@@ -56,6 +58,15 @@ app = FastAPI(
     description="API for Phase 2: FastAPI Deployment",
     version="1.0.0",
     lifespan=lifespan,
+)
+
+frontend_origin = os.getenv("FRONTEND_ORIGIN", "http://localhost:5173")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[frontend_origin],
+    allow_credentials=False,
+    allow_methods=["GET", "POST"],
+    allow_headers=["*"],
 )
 
 
@@ -169,8 +180,9 @@ def predict(request: PredictRequest):
     try:
         features = prepare_features(request)
         prediction = app_state["model"].predict(features)[0]
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Prediction failed: {e}")
+    except Exception:
+        logger.exception("Prediction failed")
+        raise HTTPException(status_code=400, detail="Unable to process prediction request.")
 
     try:
         record_prediction(
@@ -218,8 +230,9 @@ def optimize(request: OptimizeRequest):
             raise ValueError("Optimization returned empty result.")
         result_row = result_df.iloc[0]
 
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Optimization failed: {e}")
+    except Exception:
+        logger.exception("Optimization failed")
+        raise HTTPException(status_code=400, detail="Unable to process optimization request.")
 
     return OptimizeResponse(
         predicted_demand=float(prediction),
