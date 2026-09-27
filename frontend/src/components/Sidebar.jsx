@@ -5,8 +5,6 @@ import {
   Package, 
   Layers, 
   Columns3, 
-  GitBranch, 
-  Activity, 
   Sparkles
 } from 'lucide-react';
 
@@ -38,13 +36,6 @@ export default function Sidebar({ activeView, setActiveView }) {
         { id: 'simulation', label: 'What-If Simulation', icon: Columns3 }
       ]
     },
-    {
-      label: 'MLOPS',
-      items: [
-        { id: 'pipeline', label: 'Pipeline Status', icon: GitBranch },
-        { id: 'telemetry', label: 'MLOps Monitoring', icon: Activity }
-      ]
-    }
   ];
 
   return (
@@ -56,7 +47,7 @@ export default function Sidebar({ activeView, setActiveView }) {
         </div>
         <div>
           <div className="sidebar-brand-title">StockFlow AI</div>
-          <div className="sidebar-brand-sub">MLOps Demand &amp; Inventory</div>
+          <div className="sidebar-brand-sub">Demand &amp; Inventory</div>
         </div>
       </div>
 

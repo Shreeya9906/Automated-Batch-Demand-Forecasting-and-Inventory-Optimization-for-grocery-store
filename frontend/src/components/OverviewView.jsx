@@ -3,7 +3,6 @@ import {
   TrendingUp, 
   AlertTriangle, 
   Package, 
-  ShieldCheck, 
   Zap,
   ArrowRight
 } from 'lucide-react';
@@ -12,7 +11,7 @@ import DemandForecastChart from './DemandForecastChart';
 import WarehouseCapacitySection from './WarehouseCapacitySection';
 import { optimizeSingleSku } from '../services/api';
 
-export default function OverviewView({ setActiveView, onSelectCatalogItem, searchQuery = '', backendStatus }) {
+export default function OverviewView({ setActiveView, onSelectCatalogItem, searchQuery = '' }) {
   // Live optimization results map: { [sku]: { orderQty, loading } }
   const [optimizationResults, setOptimizationResults] = useState({});
   const [batchOptimizing, setBatchOptimizing] = useState(false);
@@ -129,21 +128,6 @@ export default function OverviewView({ setActiveView, onSelectCatalogItem, searc
           </div>
         </div>
 
-        {/* CARD 4: MODEL & SYSTEM STATUS */}
-        <div className="pro-kpi-card" id="kpi-model-health">
-          <div className="kpi-card-header">
-            <span className="kpi-card-title">Forecast Engine</span>
-            <ShieldCheck size={16} color="var(--success, #10b981)" />
-          </div>
-          <div className="kpi-card-val" style={{ fontSize: '1.45rem' }}>
-            {backendStatus?.data?.model_name || 'XGBoost'} v{backendStatus?.data?.model_version || '1.0'}
-          </div>
-          <div className="kpi-card-sub">
-            Status: <strong style={{ color: backendStatus?.isOnline ? 'var(--success, #10b981)' : 'var(--danger, #ef4444)' }}>
-              {backendStatus?.isOnline ? 'Active & Ready' : 'Backend Offline'}
-            </strong>
-          </div>
-        </div>
       </div>
 
       {/* Large Demand Forecast Chart */}

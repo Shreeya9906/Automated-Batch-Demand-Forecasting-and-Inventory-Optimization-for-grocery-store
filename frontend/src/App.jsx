@@ -100,7 +100,6 @@ export default function App() {
               setActiveView={setActiveView} 
               onSelectCatalogItem={handleSelectCatalogItem}
               searchQuery={searchQuery}
-              backendStatus={backendStatus}
             />
           )}
 

@@ -97,7 +97,7 @@ export default function CatalogMatrixView({ onSelectCatalogItem, searchQuery }) 
             <Package className="card-icon" size={17} />
             SKU Inventory &amp; Constraint Matrix ({filteredItems.length} SKUs Listed)
           </h3>
-          <span className="field-hint">Synchronized with XGBoost batch forecast &amp; inventory bounds</span>
+          <span className="field-hint">Synchronized with demand forecasts &amp; inventory bounds</span>
         </div>
 
         <div className="catalog-table-container">

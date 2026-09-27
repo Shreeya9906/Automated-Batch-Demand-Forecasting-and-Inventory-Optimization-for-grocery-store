@@ -25,20 +25,20 @@ export default function DemandForecastView({ onSelectCatalogItem, setActiveView 
         <div>
           <h2 className="card-title" style={{ fontSize: '1.25rem' }}>
             <TrendingUp className="card-icon" size={20} color="var(--cyan, #06b6d4)" />
-            Demand Forecasting Engine
+            Demand Forecast
           </h2>
           <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
-            XGBoost v1.0 multi-step regression modeling historical sales, pricing elasticity, and seasonal demand drivers.
+            Multi-day demand projections based on historical sales, pricing, and seasonal demand drivers.
           </p>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <span className="tag-badge success">
             <CheckCircle2 size={12} />
-            Model Status: Active
+            Forecast Ready
           </span>
           <span className="tag-badge info">
-            XGBoost v1.0
+            Live Data
           </span>
         </div>
       </div>
@@ -53,13 +53,13 @@ export default function DemandForecastView({ onSelectCatalogItem, setActiveView 
           <div className="card-header-bar">
             <h3 className="card-title" style={{ fontSize: '0.92rem' }}>
               <Cpu className="card-icon" size={17} color="var(--brand-primary)" />
-              Top Demand Feature Drivers
+              Top Demand Drivers
             </h3>
             <span className="field-hint">Feature Importance</span>
           </div>
 
           <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '16px' }}>
-            Relative contribution of feature groups ingested by the production demand model:
+            Relative contribution of the signals used to project customer demand:
           </p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
@@ -103,7 +103,7 @@ export default function DemandForecastView({ onSelectCatalogItem, setActiveView 
             </div>
 
             <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '16px' }}>
-              Forecasted demand from this model is passed directly to the <strong>SciPy / OR-Tools inventory optimization solver</strong> to determine replenishment quantities while respecting warehouse storage ceilings:
+              Forecasted demand is used to determine replenishment quantities while respecting warehouse storage ceilings:
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>

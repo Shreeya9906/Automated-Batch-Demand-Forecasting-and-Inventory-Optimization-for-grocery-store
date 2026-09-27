@@ -355,7 +355,7 @@ export default function OptimizeSection({ formData, setFormData }) {
                     <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginLeft: '3px' }}>u</span>
                   </div>
                   <span style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)' }}>
-                    XGBoost demand rate
+                    Forecasted demand rate
                   </span>
                 </div>
 

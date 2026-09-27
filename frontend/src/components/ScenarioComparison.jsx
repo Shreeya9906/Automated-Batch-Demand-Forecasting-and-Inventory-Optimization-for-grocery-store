@@ -270,7 +270,7 @@ export default function ScenarioComparison() {
             <h3 className="card-title" style={{ fontSize: '0.92rem' }}>
               Before &amp; After Decision Comparison
             </h3>
-            <span className="field-hint">FastAPI /optimize Verification</span>
+            <span className="field-hint">Replenishment comparison</span>
           </div>
 
           {error && (

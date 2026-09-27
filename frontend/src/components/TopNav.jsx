@@ -4,7 +4,7 @@ import { Search, ExternalLink, Moon, Sun } from 'lucide-react';
 export default function TopNav({ activeView, searchQuery, setSearchQuery, theme, setTheme }) {
   const viewTitles = {
     overview: 'Executive Overview & Inventory Health',
-    forecast: 'Demand Forecast (XGBoost v1.0)',
+    forecast: 'Demand Forecast',
     catalog: 'SKU Inventory & Constraint Matrix',
     studio: 'Supply Chain Optimization Studio',
     simulation: 'What-If Scenario Simulation',

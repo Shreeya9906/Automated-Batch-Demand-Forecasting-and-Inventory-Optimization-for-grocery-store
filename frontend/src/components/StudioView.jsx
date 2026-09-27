@@ -101,8 +101,8 @@ export default function StudioView({ formData, setFormData }) {
         <div className="flow-step-item">
           <div className="flow-step-num">1</div>
           <div className="flow-step-info">
-            <h4>XGBoost Demand Forecast</h4>
-            <p>Leakage-safe tree model inference (D̂)</p>
+            <h4>Demand Forecast</h4>
+            <p>Projected customer demand</p>
           </div>
         </div>
 
@@ -112,7 +112,7 @@ export default function StudioView({ formData, setFormData }) {
           <div className="flow-step-num">2</div>
           <div className="flow-step-info">
             <h4>Inventory Optimization</h4>
-            <p>SciPy / OR-Tools capacity solver</p>
+            <p>Warehouse capacity and safety stock</p>
           </div>
         </div>
 
@@ -181,7 +181,7 @@ export default function StudioView({ formData, setFormData }) {
               <Zap className="card-icon" size={18} />
               Optimization Studio Parameters
             </h2>
-            <span className="tag-badge info">FastAPI POST /optimize</span>
+            <span className="tag-badge info">Replenishment decision</span>
           </div>
 
           <form onSubmit={handleRunPipeline}>
@@ -441,7 +441,7 @@ export default function StudioView({ formData, setFormData }) {
               Optimization Result
             </h3>
             <span className="field-hint">
-              {result ? 'Computed via FastAPI' : 'Awaiting Execution'}
+              {result ? 'Computed' : 'Awaiting Execution'}
             </span>
           </div>
 
@@ -482,7 +482,7 @@ export default function StudioView({ formData, setFormData }) {
 
                 {/* 2. Forecasted Demand */}
                 <div style={{ padding: '10px 12px', background: 'var(--bg-input)', border: '1px solid var(--border-color)', borderRadius: '6px' }}>
-                  <div style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)' }}>Forecasted Demand (XGBoost)</div>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)' }}>Forecasted Demand</div>
                   <div style={{ fontSize: '1.1rem', fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--brand-primary)' }}>
                     {Math.round(result.predicted_demand)} units
                   </div>
