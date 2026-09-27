@@ -24,7 +24,8 @@ import {
   WEATHER_CONDITIONS, 
   SEASONS, 
   REGIONS, 
-  CATEGORIES 
+  CATEGORIES,
+  GROCERY_CATALOG 
 } from '../data/presets';
 import { optimizeInventory } from '../services/api';
 
@@ -61,7 +62,7 @@ export default function StudioView({ formData, setFormData }) {
     const payload = {
       "Store ID": formData["Store ID"] || "S001",
       "Product ID": formData["Product ID"] || "P0001",
-      "Category": formData["Category"] || "Dairy",
+      "Category": formData["Category"] || "Atta & Grains",
       "Region": formData["Region"] || "North",
       "Price": parseFloat(formData["Price"]) || 4.0,
       "Discount": parseFloat(formData["Discount"]) || 0.0,
@@ -206,9 +207,23 @@ export default function StudioView({ formData, setFormData }) {
                     id="studio-sku-id"
                     className="pro-select"
                     value={formData["SKU_ID"] || "SKU_1"}
-                    onChange={(e) => handleInputChange("SKU_ID", e.target.value)}
+                    onChange={(e) => {
+                      const sku = e.target.value;
+                      handleInputChange("SKU_ID", sku);
+                      const catItem = GROCERY_CATALOG.find(i => i.sku === sku);
+                      if (catItem) {
+                        handleInputChange("Product ID", catItem.sku);
+                        handleInputChange("Category", catItem.category);
+                        handleInputChange("Price", catItem.price);
+                        handleInputChange("Competitor Pricing", catItem.compPrice);
+                      }
+                    }}
                   >
-                    {SKU_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
+                    {GROCERY_CATALOG.map(item => (
+                      <option key={item.sku} value={item.sku}>
+                        {item.sku} — {item.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
@@ -269,7 +284,7 @@ export default function StudioView({ formData, setFormData }) {
               <div className="fieldset-legend">Pricing &amp; Market Drivers</div>
               <div className="form-group-grid">
                 <div className="form-field">
-                  <label className="field-label" htmlFor="studio-price">Retail Price ($)</label>
+                  <label className="field-label" htmlFor="studio-price">Retail Price (₹)</label>
                   <input
                     id="studio-price"
                     type="number"
@@ -283,7 +298,7 @@ export default function StudioView({ formData, setFormData }) {
                 </div>
 
                 <div className="form-field">
-                  <label className="field-label" htmlFor="studio-comp-price">Competitor Price ($)</label>
+                  <label className="field-label" htmlFor="studio-comp-price">Competitor Price (₹)</label>
                   <input
                     id="studio-comp-price"
                     type="number"
@@ -540,7 +555,7 @@ export default function StudioView({ formData, setFormData }) {
               <div style={{ marginTop: '12px', display: 'flex', justifyContent: 'space-between', fontSize: '0.76rem', color: 'var(--text-tertiary)', borderTop: '1px solid var(--border-color)', paddingTop: '10px' }}>
                 <span>Estimated Holding &amp; Ordering Cost:</span>
                 <strong style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>
-                  ${result.estimated_inventory_cost.toLocaleString()}
+                  ₹{result.estimated_inventory_cost.toLocaleString()}
                 </strong>
               </div>
             </>

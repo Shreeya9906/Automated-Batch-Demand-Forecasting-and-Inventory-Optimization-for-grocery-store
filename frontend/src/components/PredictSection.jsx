@@ -17,7 +17,8 @@ import {
   WEATHER_CONDITIONS, 
   SEASONS, 
   REGIONS, 
-  CATEGORIES 
+  CATEGORIES,
+  GROCERY_CATALOG
 } from '../data/presets';
 import { predictDemand } from '../services/api';
 
@@ -132,15 +133,28 @@ export default function PredictSection({ formData, setFormData, onForecastSucces
                 </div>
 
                 <div className="form-field">
-                  <label className="field-label" htmlFor="predict-product-id">Product SKU</label>
-                  <input
+                  <label className="field-label" htmlFor="predict-product-id">Catalog SKU &amp; Item</label>
+                  <select
                     id="predict-product-id"
-                    type="text"
-                    className="pro-input"
-                    value={formData["Product ID"]}
-                    onChange={(e) => handleInputChange("Product ID", e.target.value)}
-                    required
-                  />
+                    className="pro-select"
+                    value={formData["Product ID"] || "SKU_1"}
+                    onChange={(e) => {
+                      const selectedSku = e.target.value;
+                      const catalogItem = GROCERY_CATALOG.find(i => i.sku === selectedSku);
+                      handleInputChange("Product ID", selectedSku);
+                      if (catalogItem) {
+                        handleInputChange("Category", catalogItem.category);
+                        handleInputChange("Price", catalogItem.price);
+                        handleInputChange("Competitor Pricing", catalogItem.compPrice);
+                      }
+                    }}
+                  >
+                    {GROCERY_CATALOG.map(item => (
+                      <option key={item.sku} value={item.sku}>
+                        {item.sku} &mdash; {item.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div className="form-field">
@@ -189,7 +203,7 @@ export default function PredictSection({ formData, setFormData, onForecastSucces
               <div className="fieldset-legend">Pricing &amp; Market Factors</div>
               <div className="form-group-grid">
                 <div className="form-field">
-                  <label className="field-label" htmlFor="predict-price">Retail Price ($)</label>
+                  <label className="field-label" htmlFor="predict-price">Retail Price (₹)</label>
                   <input
                     id="predict-price"
                     type="number"
@@ -203,7 +217,7 @@ export default function PredictSection({ formData, setFormData, onForecastSucces
                 </div>
 
                 <div className="form-field">
-                  <label className="field-label" htmlFor="predict-comp-price">Competitor Price ($)</label>
+                  <label className="field-label" htmlFor="predict-comp-price">Competitor Price (₹)</label>
                   <input
                     id="predict-comp-price"
                     type="number"

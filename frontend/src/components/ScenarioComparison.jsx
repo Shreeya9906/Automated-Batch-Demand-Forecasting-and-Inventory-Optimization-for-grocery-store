@@ -325,7 +325,7 @@ export default function ScenarioComparison() {
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.74rem' }}>
                       <span style={{ color: 'var(--text-tertiary)' }}>Est Cost:</span>
-                      <strong style={{ fontFamily: 'var(--font-mono)' }}>${simulationData.base.cost}</strong>
+                      <strong style={{ fontFamily: 'var(--font-mono)' }}>₹{simulationData.base.cost}</strong>
                     </div>
                   </div>
                 </div>
@@ -363,7 +363,7 @@ export default function ScenarioComparison() {
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.74rem' }}>
                       <span style={{ color: 'var(--text-tertiary)' }}>Est Cost:</span>
-                      <strong style={{ fontFamily: 'var(--font-mono)' }}>${simulationData.adjusted.cost}</strong>
+                      <strong style={{ fontFamily: 'var(--font-mono)' }}>₹{simulationData.adjusted.cost}</strong>
                     </div>
                   </div>
                 </div>

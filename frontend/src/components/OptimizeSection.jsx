@@ -4,7 +4,7 @@ import {
   ShoppingCart, 
   ShieldAlert, 
   ShieldCheck, 
-  DollarSign, 
+  IndianRupee, 
   AlertTriangle, 
   ChevronDown, 
   ChevronUp, 
@@ -16,7 +16,8 @@ import {
   SKU_OPTIONS, 
   STORE_OPTIONS, 
   WEATHER_CONDITIONS, 
-  SEASONS 
+  SEASONS,
+  GROCERY_CATALOG 
 } from '../data/presets';
 import { optimizeInventory } from '../services/api';
 
@@ -104,14 +105,29 @@ export default function OptimizeSection({ formData, setFormData }) {
                 </div>
 
                 <div className="form-field">
-                  <label className="field-label" htmlFor="opt-sku-id">Warehouse SKU ID</label>
+                  <label className="field-label" htmlFor="opt-sku-id">Catalog SKU &amp; Item</label>
                   <select
                     id="opt-sku-id"
                     className="pro-select"
                     value={formData["SKU_ID"] || "SKU_1"}
-                    onChange={(e) => handleInputChange("SKU_ID", e.target.value)}
+                    onChange={(e) => {
+                      const selectedSku = e.target.value;
+                      const catalogItem = GROCERY_CATALOG.find(i => i.sku === selectedSku);
+                      handleInputChange("SKU_ID", selectedSku);
+                      handleInputChange("Product ID", selectedSku);
+                      if (catalogItem) {
+                        handleInputChange("Category", catalogItem.category);
+                        handleInputChange("Price", catalogItem.price);
+                        handleInputChange("Competitor Pricing", catalogItem.compPrice);
+                        handleInputChange("Warehouse_ID", catalogItem.warehouse);
+                      }
+                    }}
                   >
-                    {SKU_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
+                    {GROCERY_CATALOG.map(item => (
+                      <option key={item.sku} value={item.sku}>
+                        {item.sku} &mdash; {item.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -198,7 +214,7 @@ export default function OptimizeSection({ formData, setFormData }) {
                     </div>
 
                     <div className="form-field">
-                      <label className="field-label" htmlFor="opt-price">Retail Price ($)</label>
+                      <label className="field-label" htmlFor="opt-price">Retail Price (₹)</label>
                       <input
                         id="opt-price"
                         type="number"
@@ -346,7 +362,7 @@ export default function OptimizeSection({ formData, setFormData }) {
                 <div className="metric-pill-card">
                   <span className="metric-pill-title">Estimated Total Cost</span>
                   <div className="metric-pill-value" style={{ display: 'flex', alignItems: 'center' }}>
-                    <DollarSign size={16} />
+                    <IndianRupee size={16} />
                     {result.estimated_inventory_cost.toLocaleString()}
                   </div>
                   <span style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)' }}>
