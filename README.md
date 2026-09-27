@@ -24,6 +24,24 @@ The API is available at `http://localhost:8000`; Swagger/OpenAPI is at `http://l
 
 See [docs/api-contract.md](docs/api-contract.md) for request and response schemas.
 
+## Web Frontend Dashboard (StockFlow AI)
+
+An interactive React + Vite dashboard is located in `frontend/`:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The UI is hosted at `http://localhost:5173/`, featuring:
+- **Demand Forecaster**: Interactive scenario simulator for XGBoost model inference.
+- **Inventory Optimizer**: Deterministic stock replenishment calculator with safety stock and shortage penalty constraints.
+- **Scenario Matrix**: Side-by-side sensitivity simulation across promotion and supply scenarios.
+- **Model & Drift Health**: Real-time inference latency telemetry and Evidently AI feature drift tracking.
+- **API Inspector**: JSON payload schemas and cURL command exporter.
+
+
 ## Docker
 
 ```bash

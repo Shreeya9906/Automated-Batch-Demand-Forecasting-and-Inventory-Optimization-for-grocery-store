@@ -30,3 +30,8 @@ __pycache__/
 # Evidently monitoring outputs and runtime prediction log
 /reports/monitoring/
 /data/monitoring/prediction_log.csv
+
+# Frontend build artifacts and dependencies
+frontend/node_modules/
+frontend/dist/
+
