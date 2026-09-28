@@ -134,8 +134,8 @@ stages:
     deps:
       - data/processed/forecast_output.csv
       - data/processed/inventory_processed.csv
-      - data/historical/sales_data.csv
-      - data/inventory/supply_chain_dataset1.csv
+      - reports/location_mapping.csv
+      - reports/product_mapping.csv
       - pipeline/integrate_datasets.py
       - pipeline/mapping.py
       - src/common.py

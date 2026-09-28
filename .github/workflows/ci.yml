@@ -28,7 +28,7 @@ jobs:
         run: python -m compileall src pipeline
 
       - name: Run API tests
-        run: python -m pytest tests/test_api.py -s
+        run: python -m pytest tests/test_api.py tests/test_monitoring.py -s
 
       - name: Build Docker image
         run: docker build -t grocery-demand-api:v1.3.0 .

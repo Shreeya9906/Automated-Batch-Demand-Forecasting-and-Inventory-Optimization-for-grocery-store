@@ -18,6 +18,7 @@ def main() -> None:
     parser.add_argument("--feature-mode", choices=["baseline", "safe"], default="safe", help="Feature set to use")
     parser.add_argument("--sample-size", type=int, default=None, help="Optional row limit for smoke testing")
     parser.add_argument("--metrics-output", default=None, help="Override metrics JSON output path")
+    parser.add_argument("--model-output", default=None, help="Override model artifact output path")
     args = parser.parse_args()
 
     ensure_directories()
@@ -31,7 +32,8 @@ def main() -> None:
     metrics = evaluation_metrics(y_test, predictions)
     save_model_metrics(metrics_path, {"xgboost": metrics})
 
-    artifact_path = Path("models") / model_filename("xgboost", args.feature_mode)
+    artifact_path = Path(args.model_output) if args.model_output else Path("models") / model_filename("xgboost", args.feature_mode)
+    artifact_path.parent.mkdir(parents=True, exist_ok=True)
     joblib.dump(pipeline, artifact_path)
 
     importance_frame = compute_feature_importance(pipeline, "xgboost")

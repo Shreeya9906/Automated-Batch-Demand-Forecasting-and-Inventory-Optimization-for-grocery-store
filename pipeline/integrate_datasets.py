@@ -10,7 +10,7 @@ if __package__ is None or __package__ == "":
 import pandas as pd
 
 from src.common import PROCESSED_DIR, RAW_INVENTORY_PATH, RAW_SALES_PATH, REPORTS_DIR, ensure_directories, save_dataframe, save_json
-from pipeline.mapping import apply_mappings, build_decision_dataset, build_location_mapping, build_product_mapping, save_mapping_tables
+from pipeline.mapping import apply_mappings, build_decision_dataset
 
 
 def integrate_forecast_and_inventory(forecast_df: pd.DataFrame, inventory_df: pd.DataFrame, location_mapping: pd.DataFrame, product_mapping: pd.DataFrame) -> pd.DataFrame:
@@ -44,13 +44,10 @@ def main() -> None:
 
     ensure_directories()
     forecast_df = pd.read_csv(args.forecast_input)
-    sales_df = pd.read_csv(args.sales_input)
     inventory_df = pd.read_csv(args.inventory_input)
-    raw_inventory_df = pd.read_csv(args.raw_inventory_input)
 
-    location_mapping = build_location_mapping(sales_df, raw_inventory_df)
-    product_mapping = build_product_mapping(sales_df, raw_inventory_df)
-    save_mapping_tables(location_mapping, product_mapping)
+    location_mapping = pd.read_csv(REPORTS_DIR / "location_mapping.csv")
+    product_mapping = pd.read_csv(REPORTS_DIR / "product_mapping.csv")
 
     merged = integrate_forecast_and_inventory(forecast_df, inventory_df, location_mapping, product_mapping)
     save_dataframe(merged, args.integrated_output)

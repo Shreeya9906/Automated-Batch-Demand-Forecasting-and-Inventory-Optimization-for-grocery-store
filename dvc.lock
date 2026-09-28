@@ -355,26 +355,26 @@ stages:
       hash: md5
       md5: 81bb96d6a605c2708d876d48e838bb77
       size: 545537
-    - path: data/historical/sales_data.csv
+    - path: reports/location_mapping.csv
       hash: md5
-      md5: 43161d2044f30cb4bc7e4e8f749f9aa9
-      size: 6346402
+      md5: e92b112da1b385d16c3c915a24fba422
+      size: 569
+    - path: reports/product_mapping.csv
+      hash: md5
+      md5: e674e91861cc75d4184a4ce891b0b7c7
+      size: 2478
+    - path: pipeline/integrate_datasets.py
+      hash: md5
+      md5: 5f6e51cbb6ddb0f25337291da1375f97
+      size: 3558
     - path: src/common.py
       hash: md5
       md5: 954eb6309d4901e9cf57b2cb30688460
       size: 6730
-    - path: pipeline/integrate_datasets.py
-      hash: md5
-      md5: 32129d37335b6405235922b05690faa0
-      size: 3761
     - path: pipeline/mapping.py
       hash: md5
       md5: cd093f14d2e508c7e81153c6a5dbbbe2
       size: 3915
-    - path: data/inventory/supply_chain_dataset1.csv
-      hash: md5
-      md5: e0a1180cac7401765b119d2f8a00ea27
-      size: 6552486
     outs:
     - path: data/processed/decision_dataset.csv
       hash: md5

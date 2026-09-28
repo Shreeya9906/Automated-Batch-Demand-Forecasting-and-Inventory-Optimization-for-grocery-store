@@ -10,7 +10,7 @@ if __package__ is None or __package__ == "":
 import pandas as pd
 
 from src.common import REPORTS_DIR, SYNTHETIC_DIR, ensure_directories
-from pipeline.optimization import optimize_inventory_decisions, save_optimization_result
+from src.optimization import optimize_inventory_decisions, save_optimization_result
 
 
 def main() -> None:

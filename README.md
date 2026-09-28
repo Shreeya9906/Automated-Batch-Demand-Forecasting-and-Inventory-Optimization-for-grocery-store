@@ -62,3 +62,9 @@ Reports are written to `reports/monitoring/`, which is ignored by Git. Runtime p
 ## Reproducibility
 
 DVC tracks the historical datasets and batch pipeline. The historical training and validation modules remain available for DVC reproducibility, while the deployed API uses only the frozen model and inventory parameters.
+
+## Continuous Training Status
+
+The raw training datasets are represented in Git by DVC pointer files, not by the CSV data itself. This repository currently has no configured DVC remote, so the Continuous Training workflow cannot retrieve the training data on a clean GitHub Actions runner. The workflow is available for manual dispatch, but it fails before training when no DVC remote is configured and does not promote a model.
+
+Local DVC training remains possible when the required data is available locally. A real DVC remote and the required GitHub Actions access configuration must be added before scheduled automated retraining can be enabled.
