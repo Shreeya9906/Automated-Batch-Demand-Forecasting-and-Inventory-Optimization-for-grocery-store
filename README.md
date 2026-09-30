@@ -1,32 +1,116 @@
-# Grocery Demand Forecasting API
+# Automated Batch Demand Forecasting and Inventory Optimization for Grocery Store
 
-Production-oriented FastAPI backend for grocery demand forecasting and inventory optimization.
+## Overview
 
-## Architecture
+This project helps grocery stores plan inventory by forecasting product demand from historical sales data and turning those forecasts into replenishment recommendations. A leakage-safe XGBoost model estimates demand, while the inventory optimization service combines that estimate with stock and warehouse constraints to support ordering decisions.
 
-- Leakage-safe XGBoost demand model in `models/xgboost_v1.pkl`.
-- FastAPI endpoints for prediction and inventory decisions.
-- Deterministic inventory optimization using synthetic warehouse and SKU parameters.
-- DVC pipeline retained for reproducibility.
-- Docker image and GitHub Actions CI for repeatable validation.
-- Evidently monitoring for input drift, prediction drift, data quality, and prediction availability.
+## Key Features
 
-Production code lives in `src/`. Training, preprocessing, validation, and DVC stages live in `pipeline/`. Project data is organized under `data/historical/`, `data/inventory/`, `data/processed/`, `data/monitoring/`, and `data/synthetic/`.
+- XGBoost demand forecasting
+- Leakage-safe feature engineering
+- Inventory optimization using warehouse and SKU parameters
+- FastAPI REST API
+- React/Vite business dashboard
+- DVC-based data and pipeline reproducibility
+- Evidently monitoring for data and prediction drift
+- Dockerized backend
+- GitHub Actions CI and continuous-training workflow
+- Prediction logging
 
-## Run locally
+## System Architecture
 
-```bash
-python -m pip install -r requirements.txt
-uvicorn src.api:app --reload
+```text
+Historical Sales & Inventory Data
+			|
+			v
+Data Processing & Feature Engineering
+			|
+			v
+		DVC Pipeline
+			|
+			v
+  XGBoost Demand Forecasting
+			|
+			v
+	  FastAPI Backend
+		 /       \
+		v         v
+Demand Prediction  Inventory Optimization
+		\         /
+		 v       v
+	  React/Vite Dashboard
 ```
 
-The API is available at `http://localhost:8000`; Swagger/OpenAPI is at `http://localhost:8000/docs`. Configure frontend CORS with `FRONTEND_ORIGIN=http://localhost:5173`.
+## Machine Learning Model
 
-See [docs/api-contract.md](docs/api-contract.md) for request and response schemas.
+The production model in `models/xgboost_v1.pkl` uses XGBoost regression to forecast grocery demand. It uses leakage-safe historical demand features, product and store attributes, pricing and promotion signals, calendar information, and weather or seasonality inputs.
 
-## Web Frontend Dashboard (StockFlow AI)
+Production model metrics:
 
-An interactive React + Vite dashboard is located in `frontend/`:
+| Metric | Value |
+|---|---:|
+| R² | 0.7503 |
+| MAE | 16.2089 |
+| RMSE | 22.0442 |
+
+## Inventory Optimization
+
+The optimization service combines predicted demand with current inventory, reorder point, safety stock, warehouse capacity, holding cost, and ordering cost. It produces a recommended order quantity and inventory decision information for each warehouse and SKU scenario.
+
+## Technology Stack
+
+| Area | Technologies |
+|---|---|
+| Backend | Python, FastAPI, Pydantic |
+| Machine learning | XGBoost, scikit-learn, Pandas, NumPy, SciPy |
+| Data and MLOps | DVC, Evidently, joblib |
+| Frontend | React, Vite, JavaScript, Lucide React |
+| Deployment | Docker |
+| Automation | GitHub Actions |
+| Testing | pytest |
+
+## Project Structure
+
+```text
+src/                 FastAPI application and shared services
+pipeline/            Data processing, training, optimization, and monitoring stages
+models/              Production model artifacts
+data/                Historical, inventory, processed, synthetic, and monitoring data
+reports/             Evaluation, mapping, optimization, and monitoring outputs
+tests/               Backend API and monitoring tests
+frontend/            React/Vite dashboard
+.github/workflows/   CI and continuous-training workflows
+Dockerfile           Backend container definition
+dvc.yaml             DVC pipeline stages
+dvc.lock             Locked DVC pipeline state
+requirements.txt     Python dependencies
+```
+
+## Installation
+
+```bash
+git clone https://github.com/Shreeya9906/Automated-Batch-Demand-Forecasting-and-Inventory-Optimization-for-grocery-store.git
+cd grocery-demand-forecasting
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+```
+
+DVC tracks the versioned datasets and pipeline outputs. Install the dependencies above before using the DVC pipeline locally.
+
+## Run Backend
+
+```bash
+python -m uvicorn src.api:app --reload
+```
+
+- API: http://localhost:8000
+- Swagger: http://localhost:8000/docs
+- Health: http://localhost:8000/health
+
+Set `FRONTEND_ORIGIN` when the dashboard is served from a different origin.
+
+## Run Frontend
 
 ```bash
 cd frontend
@@ -34,37 +118,57 @@ npm install
 npm run dev
 ```
 
-The UI is hosted at `http://localhost:5173/`, featuring:
-- **Demand Forecaster**: Interactive scenario simulator for XGBoost model inference.
-- **Inventory Optimizer**: Deterministic stock replenishment calculator with safety stock and shortage penalty constraints.
-- **Scenario Matrix**: Side-by-side sensitivity simulation across promotion and supply scenarios.
-- **Model & Drift Health**: Real-time inference latency telemetry and Evidently AI feature drift tracking.
-- **API Inspector**: JSON payload schemas and cURL command exporter.
+Open http://localhost:5173. The dashboard communicates with the FastAPI backend. Set `VITE_API_URL` to configure the backend base URL.
 
+## API Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/` | API information |
+| GET | `/health` | Health check |
+| POST | `/predict` | Demand prediction |
+| POST | `/optimize` | Demand forecasting and inventory optimization |
+| GET | `/docs` | Swagger API documentation |
+
+See [docs/api-contract.md](docs/api-contract.md) for request and response schemas.
 
 ## Docker
 
 ```bash
-docker build -t grocery-demand-api:v1.3.0 .
-docker run --rm -p 8000:8000 grocery-demand-api:v1.3.0
+docker build -t grocery-demand-api .
+docker run --rm -p 8000:8000 grocery-demand-api
 ```
 
-The container exposes `GET /`, `GET /health`, `POST /predict`, `POST /optimize`, and `GET /docs`.
+The image packages the FastAPI backend, production model, and inventory artifacts.
 
 ## Monitoring
+
+Evidently monitors data quality, feature drift, prediction drift, prediction availability, and schema validation. Prediction records are written to `data/monitoring/prediction_log.csv`, and generated reports are stored under `reports/monitoring/`.
 
 ```bash
 python -m pipeline.run_monitoring
 ```
 
-Reports are written to `reports/monitoring/`, which is ignored by Git. Runtime prediction records are written to `data/monitoring/prediction_log.csv`. Monitoring does not claim model accuracy because runtime records do not contain ground-truth demand labels.
+## Testing
 
-## Reproducibility
+```bash
+python -m pytest tests/test_api.py tests/test_monitoring.py -s
+```
 
-DVC tracks the historical datasets and batch pipeline. The historical training and validation modules remain available for DVC reproducibility, while the deployed API uses only the frozen model and inventory parameters.
+For the frontend:
 
-## Continuous Training Status
+```bash
+cd frontend
+npm run lint
+npm run build
+```
 
-The raw training datasets are represented in Git by DVC pointer files, not by the CSV data itself. This repository currently has no configured DVC remote, so the Continuous Training workflow cannot retrieve the training data on a clean GitHub Actions runner. The workflow is available for manual dispatch, but it fails before training when no DVC remote is configured and does not promote a model.
+## MLOps Workflow
 
-Local DVC training remains possible when the required data is available locally. A real DVC remote and the required GitHub Actions access configuration must be added before scheduled automated retraining can be enabled.
+```text
+Data -> DVC -> preprocessing -> feature engineering -> XGBoost training
+	 -> evaluation -> production model -> FastAPI serving
+	 -> inventory optimization -> monitoring
+```
+
+GitHub Actions provides continuous integration and a continuous-training workflow for the model lifecycle.
